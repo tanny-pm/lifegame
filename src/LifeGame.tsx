@@ -1,6 +1,7 @@
 import ForwardIcon from "@mui/icons-material/Forward";
 import { Box, Button, Paper, Stack } from "@mui/material";
 import React, { useEffect, useState } from "react";
+import Title from "./Title";
 
 const resolution = 20;
 const numRows = 20;
@@ -79,79 +80,82 @@ const LifeGame: React.FC = () => {
   }, []);
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        minHeight: "100vh",
-        minWidth: "100vw",
-        backgroundColor: "background.default",
-      }}
-    >
-      <Paper
-        elevation={3}
+    <>
+      <Box
         sx={{
-          display: "grid",
-          gridTemplateRows: `repeat(${numRows}, ${resolution}px)`,
-          gridTemplateColumns: `repeat(${numCols}, ${resolution}px)`,
-          gap: "1px",
-          backgroundColor: "grey.500",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: "100vh",
+          minWidth: "100vw",
+          backgroundColor: "background.default",
         }}
       >
-        {grid.map((row, i) =>
-          row.map((col, j) => (
-            <Paper
-              key={`${i}-${j}`}
-              elevation={col ? 4 : 0}
-              sx={{
-                width: `${resolution}px`,
-                height: `${resolution}px`,
-                backgroundColor: col ? "common.black" : "common.white",
-              }}
-              onMouseUp={() => {
-                if (!mouseDown) {
+        <Title />
+        <Paper
+          elevation={3}
+          sx={{
+            display: "grid",
+            gridTemplateRows: `repeat(${numRows}, ${resolution}px)`,
+            gridTemplateColumns: `repeat(${numCols}, ${resolution}px)`,
+            gap: "1px",
+            backgroundColor: "grey.500",
+          }}
+        >
+          {grid.map((row, i) =>
+            row.map((col, j) => (
+              <Paper
+                key={`${i}-${j}`}
+                elevation={col ? 4 : 0}
+                sx={{
+                  width: `${resolution}px`,
+                  height: `${resolution}px`,
+                  backgroundColor: col ? "common.black" : "common.white",
+                }}
+                onMouseUp={() => {
+                  if (!mouseDown) {
+                    handleCellClick(i, j);
+                  }
+                  setMouseDown(false);
+                }}
+                onMouseDown={() => {
+                  setMouseDown(true);
                   handleCellClick(i, j);
-                }
-                setMouseDown(false);
+                }}
+                onMouseOver={() => {
+                  if (mouseDown) {
+                    handleCellClick(i, j);
+                  }
+                }}
+              />
+            ))
+          )}
+        </Paper>
+        <Box marginY={4}>
+          <Stack direction="row" spacing={2}>
+            <Button
+              variant="contained"
+              onClick={() => {
+                setRunning(!running);
               }}
-              onMouseDown={() => {
-                setMouseDown(true);
-                handleCellClick(i, j);
+            >
+              {running ? "停止" : "再生"}
+            </Button>
+            {/* 世代を1つ進めるボタンを追加 */}
+            <Button
+              variant="contained"
+              disabled={running}
+              onClick={() => {
+                updateGrid();
               }}
-              onMouseOver={() => {
-                if (mouseDown) {
-                  handleCellClick(i, j);
-                }
-              }}
-            />
-          ))
-        )}
-      </Paper>
-      <Box marginY={4}>
-        <Stack direction="row" spacing={2}>
-          <Button
-            variant="contained"
-            onClick={() => {
-              setRunning(!running);
-            }}
-          >
-            {running ? "停止" : "再生"}
-          </Button>
-          {/* 世代を1つ進めるボタンを追加 */}
-          <Button
-            variant="contained"
-            disabled={running}
-            onClick={() => {
-              updateGrid();
-            }}
-          >
-            <ForwardIcon />
-          </Button>
-        </Stack>
+            >
+              <ForwardIcon />
+            </Button>
+          </Stack>
+        </Box>
       </Box>
-    </Box>
+    </>
   );
 };
 
