@@ -1,4 +1,5 @@
-import { Box, Button, Paper } from "@mui/material";
+import ForwardIcon from "@mui/icons-material/Forward";
+import { Box, Button, Paper, Stack } from "@mui/material";
 import React, { useEffect, useState } from "react";
 
 const resolution = 20;
@@ -81,6 +82,7 @@ const LifeGame: React.FC = () => {
     <Box
       sx={{
         display: "flex",
+        flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
         minHeight: "100vh",
@@ -92,8 +94,7 @@ const LifeGame: React.FC = () => {
         elevation={3}
         sx={{
           display: "grid",
-          gridTemplateRows: `repeat(${numRows},
-          ${resolution}px)`,
+          gridTemplateRows: `repeat(${numRows}, ${resolution}px)`,
           gridTemplateColumns: `repeat(${numCols}, ${resolution}px)`,
           gap: "1px",
           backgroundColor: "grey.500",
@@ -128,20 +129,28 @@ const LifeGame: React.FC = () => {
           ))
         )}
       </Paper>
-
-      <Button
-        variant="contained"
-        onClick={() => {
-          setRunning(!running);
-        }}
-        sx={{
-          position: "fixed",
-          bottom: 16,
-          right: 16,
-        }}
-      >
-        {running ? "停止" : "再生"}
-      </Button>
+      <Box marginY={4}>
+        <Stack direction="row" spacing={2}>
+          <Button
+            variant="contained"
+            onClick={() => {
+              setRunning(!running);
+            }}
+          >
+            {running ? "停止" : "再生"}
+          </Button>
+          {/* 世代を1つ進めるボタンを追加 */}
+          <Button
+            variant="contained"
+            disabled={running}
+            onClick={() => {
+              updateGrid();
+            }}
+          >
+            <ForwardIcon />
+          </Button>
+        </Stack>
+      </Box>
     </Box>
   );
 };
