@@ -18,6 +18,16 @@ const LifeGame: React.FC = () => {
     return generateEmptyGrid();
   });
   const [running, setRunning] = useState(false);
+  const [mouseDown, setMouseDown] = useState(false);
+
+  const handleCellClick = (i: number, j: number) => {
+    setGrid((currentGrid) => {
+      const newGrid = currentGrid.map((row, y) =>
+        row.map((cell, x) => (y === i && x === j ? (cell ? 0 : 1) : cell))
+      );
+      return newGrid;
+    });
+  };
 
   const updateGrid = () => {
     setGrid((currentGrid) => {
@@ -58,6 +68,15 @@ const LifeGame: React.FC = () => {
     };
   }, [running]);
 
+  useEffect(() => {
+    const handleMouseUp = () => setMouseDown(false);
+    window.addEventListener("mouseup", handleMouseUp);
+
+    return () => {
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, []);
+
   return (
     <Box
       sx={{
@@ -89,6 +108,21 @@ const LifeGame: React.FC = () => {
                 width: `${resolution}px`,
                 height: `${resolution}px`,
                 backgroundColor: col ? "common.black" : "common.white",
+              }}
+              onMouseUp={() => {
+                if (!mouseDown) {
+                  handleCellClick(i, j);
+                }
+                setMouseDown(false);
+              }}
+              onMouseDown={() => {
+                setMouseDown(true);
+                handleCellClick(i, j);
+              }}
+              onMouseOver={() => {
+                if (mouseDown) {
+                  handleCellClick(i, j);
+                }
               }}
             />
           ))
