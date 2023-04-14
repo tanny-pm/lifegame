@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/lifegame/static/css/main.e6c13ad2.css",
+    "main.js": "/lifegame/static/js/main.54c68887.js",
+    "static/js/787.6b23bb32.chunk.js": "/lifegame/static/js/787.6b23bb32.chunk.js",
+    "index.html": "/lifegame/index.html",
+    "main.e6c13ad2.css.map": "/lifegame/static/css/main.e6c13ad2.css.map",
+    "main.54c68887.js.map": "/lifegame/static/js/main.54c68887.js.map",
+    "787.6b23bb32.chunk.js.map": "/lifegame/static/js/787.6b23bb32.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e6c13ad2.css",
+    "static/js/main.54c68887.js"
+  ]
+}
